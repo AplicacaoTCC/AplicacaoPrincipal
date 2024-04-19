@@ -1,0 +1,16 @@
+footer {
+  background-color: #f2f2f2; /* Mesma cor de fundo do header */
+  padding: 20px 0; /* Espaçamento interno */
+  text-align: center; /* Alinhar texto no centro */
+}
+
+/* Estilo para o logo no footer */
+footer img {
+  max-width: 100px; /* Tamanho máximo do logo */
+}
+
+/* Estilo para o texto de direitos reservados no footer */
+footer p {
+  margin: 10px 0; /* Espaçamento externo */
+  font-size: 14px; /* Tamanho da fonte */
+}
