@@ -1,5 +1,9 @@
 footer {
-  background-color: #f2f2f2; /* Mesma cor de fundo do header */
+  position: fixed; /* Fixa o footer na parte inferior da viewport */
+  left: 0; /* Alinha o footer à esquerda */
+  bottom: 0; /* Alinha o footer na parte inferior */
+  width: 100%; /* Define a largura para ocupar toda a largura da viewport */
+  background-color: rgba(60,157,0,0.75); /* Mesma cor de fundo do header */
   padding: 20px 0; /* Espaçamento interno */
   text-align: center; /* Alinhar texto no centro */
 }

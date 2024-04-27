@@ -1,15 +1,4 @@
-<div class="divVideo">
-
-    <div>
-        <h2>Upload de Vídeo</h2>
-    </div>
-
-    <div class="UploadInput" type="file" (change)="onFileSelected($event)">
-        <p>
-            Arraste ou clique para subir seus arquivos.
-        </p>
-    </div>
-
-    <button  class="buttons" (click)="uploadVideo()">ENVIAR</button>
-  </div>
-  
+<h2>Upload de Vídeo</h2>
+<input type="file" id="videoInput" accept="video/*" (change)="onFileSelected($event)">
+<button (click)="uploadVideo()">Enviar</button>
+<div #videoContainer></div>

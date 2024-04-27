@@ -1,12 +1,3 @@
-.divVideo {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: left;
-    gap: 20px;
-}
-
 .UploadInput {
     display: flex;
     background-color: rgb(161, 161, 161);
@@ -18,13 +9,10 @@
     width: 640px;
     height: 360px;
     border-radius: 20px;
-}
-
-.buttons {
-    border-style: none;
-    height: 40px;
-    border-radius: 12px;
-    background-color: rgb(2, 120, 224);
-    color: white;
-    font-weight: 600;
-}
+    position: fixed; /* Para centralizar na tela inteira */
+    top: 50%; /* A metade do topo da tela */
+    left: 50%; /* A metade da esquerda da tela */
+    transform: translate(-50%, -50%); /* Move o componente de volta para cima e para a esquerda, metade da largura e da altura dele */
+    margin: auto; /* Para alinhar verticalmente */
+  }
+  

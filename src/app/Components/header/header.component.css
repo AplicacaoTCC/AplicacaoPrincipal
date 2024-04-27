@@ -1,14 +1,28 @@
 header {
-  background-color: #f2f2f2;
-  padding: 20px 0;
+  background-color: rgba(60,157,0,0.75);
+  height: 64px;
+  padding: 17px 0;
   text-align: center;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 header a {
   text-decoration: none;
-  color: black;
+  color: white;
+  font-size: 20px;
   padding: 10px 20px;
-  margin: 0 10px;
+  margin: 0;
+  transition: border-bottom 0.3s;
+}
+
+header img {
+  text-decoration: none;
+  padding: 10px 20px;
+  width:63px;
+  height:63px;
+  margin: 0 100px;
   border-bottom: 2px solid transparent;
   transition: border-bottom 0.3s;
 }
