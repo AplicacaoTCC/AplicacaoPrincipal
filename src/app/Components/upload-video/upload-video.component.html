@@ -1,4 +1,6 @@
-<h2>Upload de Vídeo</h2>
-<input type="file" id="videoInput" accept="video/*" (change)="onFileSelected($event)">
-<button (click)="uploadVideo()">Enviar</button>
-<div #videoContainer></div>
+<div class="UploadVideoComponent">
+    <h2>Upload de Vídeo</h2>
+    <input type="file" id="videoInput" accept="video/*" (change)="onFileSelected($event)">
+    <button (click)="uploadVideo()">Enviar</button>
+    <div #videoContainer></div>
+</div>

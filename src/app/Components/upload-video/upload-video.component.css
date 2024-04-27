@@ -1,18 +1,8 @@
-.UploadInput {
+.UploadVideoComponent{
     display: flex;
-    background-color: rgb(161, 161, 161);
-    border-width: 12px;
     justify-content: center;
+    flex-direction: column;
+    gap: 20px;
     align-items: center;
-    border-style: solid;
-    border-color: rgb(189, 189, 189); 
-    width: 640px;
-    height: 360px;
-    border-radius: 20px;
-    position: fixed; /* Para centralizar na tela inteira */
-    top: 50%; /* A metade do topo da tela */
-    left: 50%; /* A metade da esquerda da tela */
-    transform: translate(-50%, -50%); /* Move o componente de volta para cima e para a esquerda, metade da largura e da altura dele */
-    margin: auto; /* Para alinhar verticalmente */
-  }
-  
+    height: 80vh;
+}
