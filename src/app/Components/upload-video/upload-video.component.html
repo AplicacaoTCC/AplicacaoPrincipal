@@ -1,6 +1,6 @@
-<div class="UploadVideoComponent">
-    <h2>Upload de Vídeo</h2>
+<div class="UploadInput">
+    <h2 *ngIf="!videoSelected">Upload de Vídeo</h2>
     <input type="file" id="videoInput" accept="video/*" (change)="onFileSelected($event)">
-    <button (click)="uploadVideo()">Enviar</button>
-    <div #videoContainer></div>
+    <button *ngIf="!videoSelected" (click)="uploadVideo()">Enviar</button>
+    <div id="videoContainer" *ngIf="videoSelected"></div>
 </div>

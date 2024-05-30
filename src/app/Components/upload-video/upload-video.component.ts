@@ -9,14 +9,12 @@ import { HttpClient } from '@angular/common/http';
 export class UploadVideoComponent {
   @ViewChild('videoContainer') videoContainer!: ElementRef;
   selectedFile: File | null = null;
+  videoSelected: boolean = false; // Variável para controlar se um vídeo foi selecionado
 
   constructor(private http: HttpClient) {}
 
   onFileSelected(event: any) {
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement.files && inputElement.files.length > 0) {
-      this.selectedFile = inputElement.files[0]; // Definindo o arquivo selecionado
-    }
+    this.selectedFile = event.target.files[0]; // Definindo o arquivo selecionado
     if (this.videoContainer && this.selectedFile) {
       const video = document.createElement('video');
       const videoURL = URL.createObjectURL(this.selectedFile);
@@ -24,6 +22,7 @@ export class UploadVideoComponent {
       video.controls = true;
       this.videoContainer.nativeElement.innerHTML = ''; // Limpa o conteúdo existente
       this.videoContainer.nativeElement.appendChild(video);
+      this.videoSelected = true; // Define que um vídeo foi selecionado
     }
   }
 

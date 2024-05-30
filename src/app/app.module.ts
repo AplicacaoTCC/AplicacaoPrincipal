@@ -8,6 +8,7 @@ import { HomeComponent } from './Components/home/home.component';
 import { HeaderComponent } from './Components/header/header.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { UploadVideoComponent } from './Components/upload-video/upload-video.component';
+import { VideoManagerComponent } from './Components/video-manager/video-manager.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { UploadVideoComponent } from './Components/upload-video/upload-video.com
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    UploadVideoComponent
+    UploadVideoComponent,
+    VideoManagerComponent
   ],
   imports: [
     BrowserModule,
