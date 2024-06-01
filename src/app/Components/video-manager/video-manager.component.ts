@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 interface Video {
   url: string;
+  name: string;
 }
 
 @Component({
@@ -21,10 +22,19 @@ export class VideoManagerComponent {
       const file = event.target.files[0];
       if (file) {
         const url = URL.createObjectURL(file);
-        this.videos.push({ url });
+
+        if (!this.isDuplicate(file.name)) {
+          this.videos.push({ url, name: file.name });
+        } else {
+          alert('Este vídeo já foi adicionado.');
+        }
       }
     };
     input.click();
+  }
+
+  isDuplicate(name: string): boolean {
+    return this.videos.some(video => video.name === name);
   }
 
   removeVideo(index: number) {

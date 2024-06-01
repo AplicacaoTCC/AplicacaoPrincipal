@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule } from '@angular/common/http';
 import { CardModule } from 'primeng/card';
-import {StyleClassModule} from 'primeng/styleclass';
+import { StyleClassModule } from 'primeng/styleclass';
 import { ButtonModule } from 'primeng/button';
 
 import { AppRoutingModule } from './app-routing.module';
