@@ -5,6 +5,7 @@
       <div class="video-list">
         <div *ngFor="let video of videos; let i = index" class="video-item">
           <video [src]="video.url" (click)="selectVideo(video)" width="100%"></video>
+          <span class="video-name">{{ video.name }}</span>
           <button class="remove-button" (click)="removeVideo(i)">
             <img src="assets/images/cancel.png" alt="Cancelar" style="height: 20px; width: 20px;">
           </button>
