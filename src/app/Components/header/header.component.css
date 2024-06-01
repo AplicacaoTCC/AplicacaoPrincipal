@@ -1,34 +1,4 @@
-header {
-  background-color: rgba(60,157,0,0.75);
-  height: 64px;
-  padding: 17px 0;
-  text-align: center;
-  display: flex;
-  justify-content: flex-start;
-  align-items: end;
+.custom-navbar {
+  border-bottom: 2px solid #000; /* Borda na parte inferior */
+  
 }
-
-header a {
-  text-decoration: none;
-  color: white;
-  font-size: 20px;
-  padding: 10px 20px;
-  margin: 0;
-  transition: border-bottom 0.3s;
-}
-
-header img {
-  text-decoration: none;
-  padding: 10px 20px;
-  width:63px;
-  height:63px;
-  margin: 20px 100px 0;
-  border-bottom: 2px solid transparent;
-  transition: border-bottom 0.3s;
-}
-
-header a:hover {
-  border-bottom: 2px solid black;
-}
-
-

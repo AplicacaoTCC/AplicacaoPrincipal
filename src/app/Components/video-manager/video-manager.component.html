@@ -1,19 +1,20 @@
 <div class="video-manager">
-    <main>
-      <aside class="sidebar">
-        <button class="import-button" (click)="importVideo()">Importar mídia</button>
-        <div class="video-list">
-          <div *ngFor="let video of videos; let i = index" class="video-item">
-            <video [src]="video.url" (click)="selectVideo(video)" width="100"></video>
-            <button class="remove-button" (click)="removeVideo(i)">X</button>
-          </div>
+  <main>
+    <aside class="sidebar">
+      <button pButton pRipple class="mr-3 p-button-raised import-button" (click)="importVideo()">Importar mídia</button>
+      <div class="video-list">
+        <div *ngFor="let video of videos; let i = index" class="video-item">
+          <video [src]="video.url" (click)="selectVideo(video)" width="100%"></video>
+          <button class="remove-button" (click)="removeVideo(i)">
+            <img src="assets/images/cancel.png" alt="Cancelar" style="height: 20px; width: 20px;">
+          </button>
         </div>
-      </aside>
-  
-      <section class="video-preview">
-        <video *ngIf="selectedVideo" [src]="selectedVideo.url" controls width="600"></video>
-        <button *ngIf="selectedVideo" class="confirm-button" >Confirmar vídeo</button>
-      </section>
-    </main>
-  </div>
-  
+      </div>
+    </aside>
+
+    <section class="video-preview">
+      <video *ngIf="selectedVideo" [src]="selectedVideo.url" controls width="600"></video>
+      <button *ngIf="selectedVideo" class="confirm-button">Confirmar vídeo</button>
+    </section>
+  </main>
+</div>
