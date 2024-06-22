@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { VideoManagerComponent } from './Components/video-manager/video-manager.component';
 import { VideoInputComponent } from './views/video-input/video-input.component';
+import { ResultsProcessComponent } from './Components/results-process/results-process.component';
 
 const routes: Routes = [
   {path: '', component: VideoInputComponent},
   {path: 'upload', component: VideoManagerComponent},
+  {path: 'results', component: ResultsProcessComponent}
 ];
 
 @NgModule({

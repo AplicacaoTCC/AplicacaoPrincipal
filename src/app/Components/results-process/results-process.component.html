@@ -1,0 +1,13 @@
+<div class="class">
+
+    <h2>Resultados:</h2>
+    <ul>
+        <li *ngFor="let result of results">
+            Resultado {{result.id}} -
+            Emoção: {{result.emotion}} -
+            Duração: {{result.duration}} -
+            Precisão: {{result.accuracy}} -
+            <button (click)="removeResult(result)">Remover</button>
+        </li>
+    </ul>
+</div>

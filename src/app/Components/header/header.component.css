@@ -2,3 +2,12 @@
   border-bottom: 2px solid #000; /* Borda na parte inferior */
   
 }
+
+.nav-link, .navbar-brand{
+  transition: transform 0.25s ease; /* Adiciona uma transição suave */
+
+}
+
+.nav-link:hover, .navbar-brand:hover{
+  transform: scale(1.06);
+}
