@@ -1,0 +1,14 @@
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 100% da altura da visualização */
+}
+
+.progress-container {
+    width: 100%; /* Garante que a barra de progresso ocupe toda a largura disponível */
+}
+
+h4{
+    margin-left: 50px;
+}

@@ -11,6 +11,9 @@ import { ResultsService } from 'src/app/services/results.service';
 export class ResultsProcessComponent implements OnInit{
     results: Result[] = [];
 
+    basicData: any;
+    options: any;
+
     result: Result = {
       id: 0,
       emotion: '',
@@ -19,17 +22,41 @@ export class ResultsProcessComponent implements OnInit{
     }
 
     constructor(private resultsService : ResultsService){
-      this.getResults();
+      
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.options = {
+        responsive: true,
+        maintainAspectRatio: false
+      };
+  
+        this.resultsService.getAll().subscribe(results => {
+        this.results = results;
+        this.prepareChartData(results);
+          
+        });
+      
+    }
 
     removeResult(result: Result){
-      console.log("Removendo resultado...");
       this.results = this.resultsService.remove(this.results, result);
     }
 
-    getResults(): void {
-     this.resultsService.getAll().subscribe((results) => (this.results = results));
+    prepareChartData(results: Result[]) {
+      const emotions = results.map(result => result.emotion);
+      const durations = results.map(result => parseFloat(result.duration));
+  
+      this.basicData = {
+        labels: emotions,
+        datasets: [
+          {
+            label: 'Duration',
+            backgroundColor: '#42A5F5',
+            borderColor: '#1E88E5',
+            data: durations
+          }
+        ]
+      };
     }
 }

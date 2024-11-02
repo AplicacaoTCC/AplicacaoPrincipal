@@ -2,11 +2,13 @@
 
     <h2>Resultados:</h2>
     <ul>
-        <li *ngFor="let result of results">
-            Resultado {{result.id}} -
+        <li style="list-style: none;" *ngFor="let result of results">
+            <!-- Resultado {{result.id}} -
             Emoção: {{result.emotion}} -
             Duração: {{result.duration}} -
-            Precisão: {{result.accuracy}} -
+            Precisão: {{result.accuracy}} - -->
+
+            <p-chart type="bar" [data]="basicData" [options]="options"></p-chart>
             <button (click)="removeResult(result)">Remover</button>
         </li>
     </ul>
