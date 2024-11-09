@@ -1,6 +1,11 @@
 export interface Result {
-    id: number,
-    emotion: string;
-    duration: string;
-    accuracy: string;
+  emotions: Emotions;
+  time: string;
+}
+
+export interface Emotions{
+  Engajamento: number;
+  Tedio: number;
+  Frustracao: number;
+  Confusao: number;
 }

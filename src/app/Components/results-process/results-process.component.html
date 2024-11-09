@@ -1,15 +1,62 @@
 <div class="class">
+  <h2>Resultados:</h2>
+  <table class="emotion-table">
+    <thead>
+      <tr>
+        <th (click)="sortData('time')" [class.active-column]="sortColumn === 'time'">
+          Tempo
+          <span *ngIf="sortColumn === 'time'">
+            <i *ngIf="sortDirection === 'asc'">▲</i>
+            <i *ngIf="sortDirection === 'desc'">▼</i>
+          </span>
+        </th>
+        <th (click)="sortData('Engajamento')" [class.active-column]="sortColumn === 'Engajamento'">
+          Engajamento
+          <span *ngIf="sortColumn === 'Engajamento'">
+            <i *ngIf="sortDirection === 'asc'">▲</i>
+            <i *ngIf="sortDirection === 'desc'">▼</i>
+          </span>
+        </th>
+        <th (click)="sortData('Tedio')" [class.active-column]="sortColumn === 'Tedio'">
+          Tédio
+          <span *ngIf="sortColumn === 'Tedio'">
+            <i *ngIf="sortDirection === 'asc'">▲</i>
+            <i *ngIf="sortDirection === 'desc'">▼</i>
+          </span>
+        </th>
+        <th (click)="sortData('Frustracao')" [class.active-column]="sortColumn === 'Frustracao'">
+          Frustração
+          <span *ngIf="sortColumn === 'Frustracao'">
+            <i *ngIf="sortDirection === 'asc'">▲</i>
+            <i *ngIf="sortDirection === 'desc'">▼</i>
+          </span>
+        </th>
+        <th (click)="sortData('Confusao')" [class.active-column]="sortColumn === 'Confusao'">
+          Confusão
+          <span *ngIf="sortColumn === 'Confusao'">
+            <i *ngIf="sortDirection === 'asc'">▲</i>
+            <i *ngIf="sortDirection === 'desc'">▼</i>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let result of results">
+        <td>{{ result.time }}</td>
+        <td>{{ result.emotions.Engajamento | number: '1.2-2' }}</td>
+        <td>{{ result.emotions.Tedio | number: '1.2-2' }}</td>
+        <td>{{ result.emotions.Frustracao | number: '1.2-2' }}</td>
+        <td>{{ result.emotions.Confusao | number: '1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Próxima</button>
+  </div>
 
-    <h2>Resultados:</h2>
-    <ul>
-        <li style="list-style: none;" *ngFor="let result of results">
-            <!-- Resultado {{result.id}} -
-            Emoção: {{result.emotion}} -
-            Duração: {{result.duration}} -
-            Precisão: {{result.accuracy}} - -->
-
-            <p-chart type="bar" [data]="basicData" [options]="options"></p-chart>
-            <button (click)="removeResult(result)">Remover</button>
-        </li>
-    </ul>
+  <p-chart type="bar" [data]="basicData" [options]="options"></p-chart>
+  <button (click)="exportToCSV()" class="export-button">Exportar para CSV</button>
 </div>
+

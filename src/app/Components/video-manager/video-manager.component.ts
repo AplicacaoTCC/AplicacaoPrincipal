@@ -1,8 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';  // Importa o Router para navegação
+import { environment } from '../../../environments/environments';
 
 interface Video {
   url: string;
   name: string;
+  file: File;
 }
 
 @Component({
@@ -11,8 +15,12 @@ interface Video {
   styleUrls: ['./video-manager.component.css']
 })
 export class VideoManagerComponent {
+  apiUrl = environment.apiUrl;
   videos: Video[] = [];
   selectedVideo: Video | null = null;
+  isLoading: boolean = false; // Variável de estado de carregamento
+
+  constructor(private http: HttpClient, private router: Router) { } // Injetar o Router
 
   importVideo() {
     const input = document.createElement('input');
@@ -22,9 +30,8 @@ export class VideoManagerComponent {
       const file = event.target.files[0];
       if (file) {
         const url = URL.createObjectURL(file);
-
         if (!this.isDuplicate(file.name)) {
-          this.videos.push({ url, name: file.name });
+          this.videos.push({ url, name: file.name, file });
         } else {
           alert('Este vídeo já foi adicionado.');
         }
@@ -49,9 +56,26 @@ export class VideoManagerComponent {
   }
 
   confirmVideo() {
-    if (this.selectedVideo) {
-      console.log('Video confirmed:', this.selectedVideo.url);
-      // Faça a manipulação necessária do vídeo aqui
+    if (this.selectedVideo && this.selectedVideo.file) {
+      const formData = new FormData();
+      formData.append('video', this.selectedVideo.file, this.selectedVideo.name);
+
+      this.isLoading = true; // Iniciar o estado de carregamento
+      this.router.navigate(['/awaiting']); // Navegar para tela de "Aguardando Análise"
+
+      this.http.post(`${this.apiUrl}/process_video`, formData)
+        .subscribe(
+          (response) => {
+            console.log('Vídeo enviado com sucesso:', response);
+            this.isLoading = false; // Terminar o carregamento
+            // Redireciona para a tela de resultados com os dados de resposta
+            this.router.navigate(['/results'], { state: { data: response } });
+          },
+          (error) => {
+            console.error('Erro ao enviar o vídeo:', error);
+            this.isLoading = false; // Terminar o carregamento em caso de erro
+          }
+        );
     }
   }
 }

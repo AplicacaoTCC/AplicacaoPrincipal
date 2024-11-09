@@ -15,7 +15,10 @@
 
     <section class="video-preview">
       <video *ngIf="selectedVideo" [src]="selectedVideo.url" controls width="600"></video>
-      <button *ngIf="selectedVideo" class="confirm-button">Confirmar vídeo</button>
+
+      <div *ngIf="selectedVideo" class="confirmation-controls">
+        <button class="confirm-button" (click)="confirmVideo()">Confirmar vídeo</button>
+      </div>
     </section>
   </main>
 </div>

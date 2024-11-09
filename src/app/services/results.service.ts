@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-
-import { Result } from '../Result';
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environments'
+import { Result } from '../Result';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResultsService {
-  private apiUrl = 'http://localhost:3000/result1'
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
-  remove(results: Result[], result: Result){
-    return results.filter((r) => result.id !== r.id);
+  getAll(): Observable<Result[]> {
+    return this.http.get<{ emotions: Result[] }>(`${this.apiUrl}/analyze_emotions`)
+      .pipe(map(response => response.emotions));
   }
 
-  getAll(): Observable<Result[]>{
-    return this.http.get<Result[]>(this.apiUrl)
-  }
+  // remove(results: Result[], resultToRemove: Result): Result[] {
+  //   return results.filter(result => result.id !== resultToRemove.id);
+  // }
 }
