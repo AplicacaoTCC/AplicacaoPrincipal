@@ -16,22 +16,21 @@ export class ResultsProcessComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 10;
   totalPages = 1;
-  sortColumn: 'time' | keyof Emotions = 'time'; // Coluna padrão para ordenação
-  sortDirection: 'asc' | 'desc' = 'asc';
+  sortColumn: 'time' | keyof Emotions = 'time'; // Default sort column
+  sortDirection: 'desc' | 'asc' = 'desc';
 
   constructor(private router: Router) {
-    // Obter os dados da navegação
+    // Retrieve navigation state data
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as { data: any };
 
     if (state && state.data && state.data.results) {
       this.results = state.data.results as Result[];
       this.totalPages = Math.ceil(this.results.length / this.itemsPerPage);
-      this.sortData(this.sortColumn); // Ordenar por tempo inicialmente
-      this.updatePaginatedResults();
+      this.sortData(this.sortColumn); // Sort by time initially
+      this.updatePaginatedResults();  // Update pagination on initial load
     }
   }
-
 
   ngOnInit(): void {
     this.options = {
@@ -52,12 +51,15 @@ export class ResultsProcessComponent implements OnInit {
       this.prepareChartData(this.results);
     }
   }
+
+  // Update paginated results based on the current page
   updatePaginatedResults() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedResults = this.results.slice(startIndex, endIndex);
   }
 
+  // Go to the previous page if not on the first page
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -65,22 +67,25 @@ export class ResultsProcessComponent implements OnInit {
     }
   }
 
+  // Go to the next page if not on the last page
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
       this.updatePaginatedResults();
     }
   }
+
+  // Sort the data based on the selected column
   sortData(column: 'time' | keyof Emotions) {
     if (this.sortColumn === column) {
-      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+      this.sortDirection = this.sortDirection === 'desc' ? 'asc' : 'desc';
     } else {
       this.sortColumn = column;
-      this.sortDirection = 'asc';
+      this.sortDirection = 'desc';
     }
 
     this.results.sort((a, b) => {
-      // Converter tempo para segundos se a coluna for 'time'
+      // Convert time to seconds if the column is 'time'
       const valueA = column === 'time' ? this.timeToSeconds(a[column]) : parseFloat(a.emotions[column as keyof Emotions].toString());
       const valueB = column === 'time' ? this.timeToSeconds(b[column]) : parseFloat(b.emotions[column as keyof Emotions].toString());
 
@@ -95,12 +100,13 @@ export class ResultsProcessComponent implements OnInit {
     this.updatePaginatedResults();
   }
 
-  // Função auxiliar para converter tempo no formato 'mm:ss' para segundos
+  // Convert time in 'mm:ss' format to seconds
   timeToSeconds(time: string): number {
     const [minutes, seconds] = time.split(':').map(part => parseInt(part, 10));
     return minutes * 60 + seconds;
   }
 
+  // Prepare data for the chart
   prepareChartData(results: Result[]) {
     const emotionTotals: { [key in keyof Emotions]: number } = {
       Engajamento: 0,
@@ -148,6 +154,7 @@ export class ResultsProcessComponent implements OnInit {
     };
   }
 
+  // Get a list of emotions with their values for a result
   getEmotionList(emotions: Emotions): { name: string; value: number }[] {
     const emotionLabels = {
       Engajamento: 'Engajamento',
@@ -160,6 +167,8 @@ export class ResultsProcessComponent implements OnInit {
       value
     }));
   }
+
+  // Export results to CSV
   exportToCSV() {
     const csvContent = this.convertToCSV(this.results);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -173,6 +182,7 @@ export class ResultsProcessComponent implements OnInit {
     document.body.removeChild(link);
   }
 
+  // Convert results to CSV format
   convertToCSV(results: Result[]): string {
     const headers = ['Tempo', 'Confusão (%)', 'Engajamento (%)', 'Frustração (%)', 'Tédio (%)'];
     const rows = results.map(result => [

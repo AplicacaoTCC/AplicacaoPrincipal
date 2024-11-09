@@ -41,7 +41,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let result of results">
+      <tr *ngFor="let result of paginatedResults">
         <td>{{ result.time }}</td>
         <td>{{ result.emotions.Engajamento | number: '1.2-2' }}</td>
         <td>{{ result.emotions.Tedio | number: '1.2-2' }}</td>
@@ -50,6 +50,7 @@
       </tr>
     </tbody>
   </table>
+
   <div class="pagination-controls">
     <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
     <span>Página {{ currentPage }} de {{ totalPages }}</span>
@@ -59,4 +60,3 @@
   <p-chart type="bar" [data]="basicData" [options]="options"></p-chart>
   <button (click)="exportToCSV()" class="export-button">Exportar para CSV</button>
 </div>
-
