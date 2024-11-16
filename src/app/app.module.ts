@@ -23,6 +23,7 @@ import { ResultsProcessComponent } from './Components/results-process/results-pr
 import { AwaitingAnalysisComponent } from './Components/awaiting-analysis/awaiting-analysis.component';
 import { CarouselComponent } from './Components/carousel/carousel.component';
 import { LineChartsComponent } from './Components/line-charts/line-charts.component';
+import { HeatmapChartComponent } from './Components/heatmap-chart/heatmap-chart.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { LineChartsComponent } from './Components/line-charts/line-charts.compon
     ResultsProcessComponent,
     AwaitingAnalysisComponent,
     CarouselComponent,
-    LineChartsComponent
+    LineChartsComponent,
+    HeatmapChartComponent
   ],
   imports: [
     FormsModule,
