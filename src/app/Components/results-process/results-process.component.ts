@@ -1,14 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Result, Emotions } from 'src/app/Result';
+import { ProcessingStateService } from 'src/app/services/processing-state.service';
 import { ResultsService } from 'src/app/services/results.service';
+import { environment } from 'src/environments/environments';
 
+interface HighlighhaqtedFrame {
+  url: string;
+  time: string;
+}
 @Component({
   selector: 'app-results-process',
   templateUrl: './results-process.component.html',
   styleUrls: ['./results-process.component.css']
 })
-export class ResultsProcessComponent implements OnInit {
+export class ResultsProcessComponent implements OnInit, OnDestroy {
   results: Result[] = [];
   basicData: any;
   options: any;
@@ -16,21 +23,11 @@ export class ResultsProcessComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 10;
   totalPages = 1;
-  sortColumn: 'time' | keyof Emotions = 'time'; // Default sort column
+  sortColumn: 'time' | keyof Emotions = 'time';
   sortDirection: 'desc' | 'asc' = 'desc';
+  private subscription!: Subscription;
 
-  constructor(private router: Router) {
-    // Retrieve navigation state data
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as { data: any };
-
-    if (state && state.data && state.data.results) {
-      this.results = state.data.results as Result[];
-      this.totalPages = Math.ceil(this.results.length / this.itemsPerPage);
-      this.sortData(this.sortColumn); // Sort by time initially
-      this.updatePaginatedResults();  // Update pagination on initial load
-    }
-  }
+  constructor(private processingStateService: ProcessingStateService) {}
 
   ngOnInit(): void {
     this.options = {
@@ -47,11 +44,28 @@ export class ResultsProcessComponent implements OnInit {
       }
     };
 
-    if (this.results.length > 0) {
-      this.prepareChartData(this.results);
+    // Inscreve-se para receber os resultados em tempo real
+    this.subscription = this.processingStateService.results$.subscribe((newResults) => {
+      this.results = newResults;
+      this.updateTotalPages(); // Recalcular total de páginas
+      this.updatePaginatedResults(); // Atualizar os resultados paginados
+      this.prepareChartData(this.results); // Atualizar os gráficos
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
+  isFaceDetected(emotions: Emotions): boolean {
+    return Object.values(emotions).some((value) => value > 0);
+  }
+
+  updateTotalPages() {
+    this.totalPages = Math.ceil(this.results.length / this.itemsPerPage);
+  }
   // Update paginated results based on the current page
   updatePaginatedResults() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;

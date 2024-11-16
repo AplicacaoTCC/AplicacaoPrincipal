@@ -1,0 +1,7 @@
+.carousel-image {
+  width: 25%; /* Preenche toda a largura */
+  height: 25%; /* Define a altura desejada para o carrossel */
+  object-fit: cover; /* Ajusta a imagem sem distorcer, cortando se necessário */
+  display: block;
+  margin: 0 auto;
+} /* Estica a imagem para preencher o container */
