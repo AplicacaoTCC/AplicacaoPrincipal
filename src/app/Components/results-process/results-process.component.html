@@ -69,6 +69,7 @@
     <button (click)="nextPage()" [disabled]="currentPage === totalPages">Próxima</button>
   </div>
 
+  <app-line-charts></app-line-charts>
   <p-chart type="bar" [data]="basicData" [options]="options"></p-chart>
   <button (click)="exportToCSV()" class="export-button">Exportar para CSV</button>
 </div>

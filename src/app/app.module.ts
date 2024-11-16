@@ -8,6 +8,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { NgApexchartsModule } from 'ng-apexcharts';
 // For dynamic progressbar demo
 import { ToastModule } from 'primeng/toast';
 
@@ -21,6 +22,7 @@ import { VideoInputComponent } from './views/video-input/video-input.component';
 import { ResultsProcessComponent } from './Components/results-process/results-process.component';
 import { AwaitingAnalysisComponent } from './Components/awaiting-analysis/awaiting-analysis.component';
 import { CarouselComponent } from './Components/carousel/carousel.component';
+import { LineChartsComponent } from './Components/line-charts/line-charts.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { CarouselComponent } from './Components/carousel/carousel.component';
     VideoInputComponent,
     ResultsProcessComponent,
     AwaitingAnalysisComponent,
-    CarouselComponent
+    CarouselComponent,
+    LineChartsComponent
   ],
   imports: [
     FormsModule,
@@ -45,6 +48,7 @@ import { CarouselComponent } from './Components/carousel/carousel.component';
     AppRoutingModule,
     ChartModule,
     ProgressBarModule,
+    NgApexchartsModule,
     ToastModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
