@@ -32,7 +32,8 @@
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/chart.js/dist/chart.js"
+              "node_modules/chart.js/dist/chart.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
           "configurations": {

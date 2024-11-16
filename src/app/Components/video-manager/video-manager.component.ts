@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';  // Importa o Router para navegação
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ProcessingStateService } from 'src/app/services/processing-state.service';
 import { environment } from '../../../environments/environments';
 
 interface Video {
@@ -18,9 +19,13 @@ export class VideoManagerComponent {
   apiUrl = environment.apiUrl;
   videos: Video[] = [];
   selectedVideo: Video | null = null;
-  isLoading: boolean = false; // Variável de estado de carregamento
+  isLoading: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) { } // Injetar o Router
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private processingStateService: ProcessingStateService
+  ) { }
 
   importVideo() {
     const input = document.createElement('input');
@@ -59,23 +64,53 @@ export class VideoManagerComponent {
     if (this.selectedVideo && this.selectedVideo.file) {
       const formData = new FormData();
       formData.append('video', this.selectedVideo.file, this.selectedVideo.name);
+      this.processingStateService.clearResults();
+      this.isLoading = true;
 
-      this.isLoading = true; // Iniciar o estado de carregamento
-      this.router.navigate(['/awaiting']); // Navegar para tela de "Aguardando Análise"
-
-      this.http.post(`${this.apiUrl}/process_video`, formData)
-        .subscribe(
-          (response) => {
-            console.log('Vídeo enviado com sucesso:', response);
-            this.isLoading = false; // Terminar o carregamento
-            // Redireciona para a tela de resultados com os dados de resposta
-            this.router.navigate(['/results'], { state: { data: response } });
-          },
-          (error) => {
-            console.error('Erro ao enviar o vídeo:', error);
-            this.isLoading = false; // Terminar o carregamento em caso de erro
-          }
-        );
+      // Envia o vídeo com `HttpClient`
+      this.http.post(`${this.apiUrl}/process_video`, formData).subscribe({
+        next: () => {
+          this.isLoading = false;
+          // Navega para a tela de "Aguardando Análise" e inicia o stream
+          this.router.navigate(['/awaiting']).then(() => {
+            this.streamProcessingUpdates();
+          });
+        },
+        error: (error) => {
+          console.error('Erro ao enviar o vídeo:', error);
+          this.isLoading = false;
+        }
+      });
     }
+  }
+
+
+  streamProcessingUpdates() {
+    const eventSource = new EventSource(`${this.apiUrl}/process_video`);
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      if (data.frame) {
+        // Atualiza a mensagem de progresso no serviço de estado
+        this.processingStateService.updateProgressMessage(`Processando emoções do frame: ${data.frame}`);
+        console.log("Passando frame:", data.frame);
+
+        // Adiciona o resultado ao serviço
+        this.processingStateService.addResult(data);
+      }
+
+      if (data.message === 'Processamento concluído') {
+        // Fecha o EventSource e redireciona para a tela de resultados
+        eventSource.close();
+        console.log("Processamento concluído.");
+        this.router.navigate(['/results']);
+      }
+    };
+
+    eventSource.onerror = (error) => {
+      console.error('Erro ao receber atualizações:', error);
+      eventSource.close();
+    };
   }
 }

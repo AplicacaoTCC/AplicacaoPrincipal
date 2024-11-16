@@ -1,5 +1,7 @@
 <div class="center-container">
-    <h4>Aguarde o processamento...</h4>
+  <div class="awaiting">
+    <p>{{ processingMessage }}</p>
+  </div>
     <div class="progress-container">
         <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
     </div>

@@ -20,6 +20,7 @@ import { VideoManagerComponent } from './Components/video-manager/video-manager.
 import { VideoInputComponent } from './views/video-input/video-input.component';
 import { ResultsProcessComponent } from './Components/results-process/results-process.component';
 import { AwaitingAnalysisComponent } from './Components/awaiting-analysis/awaiting-analysis.component';
+import { CarouselComponent } from './Components/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AwaitingAnalysisComponent } from './Components/awaiting-analysis/awaiti
     VideoManagerComponent,
     VideoInputComponent,
     ResultsProcessComponent,
-    AwaitingAnalysisComponent
+    AwaitingAnalysisComponent,
+    CarouselComponent
   ],
   imports: [
     FormsModule,
