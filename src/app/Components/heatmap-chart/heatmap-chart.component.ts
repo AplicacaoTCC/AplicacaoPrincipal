@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ResultsService } from '../../services/results.service';
+import { ProcessingStateService } from '../../services/processing-state.service';
 import { ApexChart, ApexTitleSubtitle, ApexXAxis, ApexYAxis, ApexPlotOptions, ApexDataLabels, ApexTooltip } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -21,26 +21,29 @@ export type ChartOptions = {
 export class HeatmapChartComponent implements OnInit {
   public chartOptions: ChartOptions;
 
-  constructor(private resultsService: ResultsService) {
+  constructor(private processingStateService: ProcessingStateService) {
     this.chartOptions = {
       series: [
-        { name: 'Boredome', data: [] },
-        { name: 'Confusion', data: [] },
-        { name: 'Engaged', data: [] },
-        { name: 'Frustration', data: [] }
+        { name: 'Tédio', data: [] },
+        { name: 'Confusão', data: [] },
+        { name: 'Engajamento', data: [] },
+        { name: 'Frustração', data: [] }
       ],
       chart: {
         type: 'heatmap',
         height: 350
       },
       title: {
-        text: 'Academic Emotions Heatmap'
+        text: 'Mapa de Calor das Emoções'
       },
       xaxis: {
-        title: { text: 'Time (seconds)' }
+        title: { text: 'Tempo (segundos)' },
+        labels: {
+          formatter: (value) => `${value}s`
+        }
       },
       yaxis: {
-        title: { text: 'Emotions' },
+        title: { text: 'Emoções' },
         labels: {
           formatter: (value) => value.toString()
         }
@@ -49,10 +52,10 @@ export class HeatmapChartComponent implements OnInit {
         heatmap: {
           colorScale: {
             ranges: [
-              { from: 0, to: 10, color: '#f4f4f4', name: 'Very Low' },
-              { from: 11, to: 30, color: '#ffe0b2', name: 'Low' },
-              { from: 31, to: 70, color: '#ffb74d', name: 'Moderate' },
-              { from: 71, to: 100, color: '#e65100', name: 'High' }
+              { from: 0, to: 24, color: '#f4f4f4', name: 'Muito Baixo' },
+              { from: 25, to: 49, color: '#ffe0b2', name: 'Baixo' },
+              { from: 50, to: 74, color: '#ffb74d', name: 'Moderado' },
+              { from: 75, to: 100, color: '#e65100', name: 'Alto' }
             ]
           }
         }
@@ -69,20 +72,24 @@ export class HeatmapChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.resultsService.getProcessingUpdates().subscribe({
-      next: (result) => {
-        const time = result.time;
+    this.processingStateService.results$.subscribe({
+      next: (results) => {
+        const updatedSeries = [...this.chartOptions.series];
+        console.log(updatedSeries)
+        results.forEach((result) => {
+          const tempo = this.parseTimeToSeconds(result.time);
 
-        // Adiciona os valores normalizados das emoções ao heatmap
-        const emotions = result.emotions;
-        const total = emotions.Tedio + emotions.Confusao + emotions.Engajamento + emotions.Frustracao;
+          // Adiciona os valores normalizados das emoções ao heatmap
+          const emocoes = result.emotions;
+          const total = emocoes.Tedio + emocoes.Confusao + emocoes.Engajamento + emocoes.Frustracao;
 
-        this.chartOptions.series[0].data.push({ x: Number(time), y: 'Boredome', value: this.normalize(emotions.Tedio, total) });
-        this.chartOptions.series[1].data.push({ x: Number(time), y: 'Confusion', value: this.normalize(emotions.Confusao, total) });
-        this.chartOptions.series[2].data.push({ x: Number(time), y: 'Engaged', value: this.normalize(emotions.Engajamento, total) });
-        this.chartOptions.series[3].data.push({ x: Number(time), y: 'Frustration', value: this.normalize(emotions.Frustracao, total) });
+          updatedSeries[0].data.push({ x: tempo, y: 'Tédio', value: this.normalizar(emocoes.Tedio, total) });
+          updatedSeries[1].data.push({ x: tempo, y: 'Confusão', value: this.normalizar(emocoes.Confusao, total) });
+          updatedSeries[2].data.push({ x: tempo, y: 'Engajamento', value: this.normalizar(emocoes.Engajamento, total) });
+          updatedSeries[3].data.push({ x: tempo, y: 'Frustração', value: this.normalizar(emocoes.Frustracao, total) });
+        });
 
-        this.chartOptions = { ...this.chartOptions }; // Garante reatividade
+        this.chartOptions.series = updatedSeries; // Atualiza a série
       },
       error: (err) => {
         console.error('Erro ao receber dados do backend:', err);
@@ -93,7 +100,15 @@ export class HeatmapChartComponent implements OnInit {
   /**
    * Normaliza um valor em porcentagem baseado no total.
    */
-  private normalize(value: number, total: number): number {
-    return total ? Math.round((value / total) * 100) : 0;
+  private normalizar(valor: number, total: number): number {
+    return total ? Math.round((valor / total) * 100) : 0;
+  }
+
+  /**
+   * Converte o tempo no formato "MM:SS" para segundos.
+   */
+  private parseTimeToSeconds(time: string): number {
+    const [minutes, seconds] = time.split(':').map((part) => parseInt(part, 10));
+    return minutes * 60 + seconds;
   }
 }
