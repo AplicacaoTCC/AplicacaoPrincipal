@@ -43,23 +43,19 @@
     </thead>
     <tbody>
       <tr *ngFor="let result of paginatedResults">
-        <td>{{ result.time }}</td>
-        <td *ngIf="isFaceDetected(result.emotions); else noFaceDetected">
-          {{ result.emotions.Engajamento | number: '1.2-2' }}
-        </td>
-        <td *ngIf="isFaceDetected(result.emotions); else noFaceDetected">
-          {{ result.emotions.Tedio | number: '1.2-2' }}
-        </td>
-        <td *ngIf="isFaceDetected(result.emotions); else noFaceDetected">
-          {{ result.emotions.Frustracao | number: '1.2-2' }}
-        </td>
-        <td *ngIf="isFaceDetected(result.emotions); else noFaceDetected">
-          {{ result.emotions.Confusao | number: '1.2-2' }}
-        </td>
+        <!-- Verifica se todos os valores de emoção são zero -->
+        <ng-container *ngIf="isFaceDetected(result.emotions); else noFaceDetected">
+          <td>{{ result.time }}</td>
+          <td>{{ result.emotions.Engajamento | number: '1.2-2' }}</td>
+          <td>{{ result.emotions.Tedio | number: '1.2-2' }}</td>
+          <td>{{ result.emotions.Frustracao | number: '1.2-2' }}</td>
+          <td>{{ result.emotions.Confusao | number: '1.2-2' }}</td>
+        </ng-container>
+        <!-- Caso nenhum rosto seja detectado, renderiza a mensagem -->
+        <ng-template #noFaceDetected>
+          <td colspan="5" class="no-face-detected">Nenhum rosto foi detectado neste frame.</td>
+        </ng-template>
       </tr>
-      <ng-template #noFaceDetected>
-        <td colspan="5" class="no-face-detected">Nenhum rosto foi detectado neste frame.</td>
-      </ng-template>
     </tbody>
   </table>
 
