@@ -1,32 +1,61 @@
-<<<<<<< HEAD
-# TCCAplicacao
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.14.
+# Front-end do TCC
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+## Stack utilizada
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+**Front-end:** Angular
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Como rodar o projeto
 
-## Running end-to-end tests
+Pré-requisitos:
+Node 16.x
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Para verificar a versão digite no prompt de comando:
+```bash
+node -v
+```
+Caso não tenha o node instalado:
 
-## Further help
+[Node v16 LTS](https://nodejs.org/dist/v16.16.0/node-v16.16.0-x64.msi)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-=======
-# AplicacaoPrincipal
-Repositório de Desenvolvimento da Aplicação
->>>>>>> a8e0c08caa2651039ff00acfdb281f4bbdca970f
+Após instalar o Node, digite no prompt de comando
+```bash
+npm install -g @angular/cli@16.2.14
+```
+
+
+1. Clone o repositório
+```bash
+git clone https://github.com/AplicacaoTCC/AplicacaoPrincipal.git
+```
+
+2. Entre no diretório do projeto
+```bash
+cd AplicacaoPrincipal
+```
+3. Instale as dependências
+```bash
+npm install
+```
+
+4. Abra o projeto no VSCode e mude o arquivo environments.ts para apontar para o back-end que vai estar rodando na porta 5000. Caminho do arquivo é src/environments/environments.ts
+```bash
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:5000'
+};
+```
+
+5. Após configurar o ambiente, você pode executar o projeto localmente digitando este comando no console:
+```bash
+npm start
+```
+
+
+
+**Lembre-se de estar rodando o back-end para que a aplicação funcione de forma correta**
